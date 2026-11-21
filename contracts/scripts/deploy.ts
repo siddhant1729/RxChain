@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { ethers, network, artifacts } from "hardhat";
-import { DEPLOYMENT_FILES, type DeploymentFile } from "./lib";
+import { BACKEND_DEPLOYMENT_FILE, FRONTEND_DEPLOYMENT_FILE, type DeploymentFile } from "./lib";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -26,11 +26,13 @@ async function main() {
     abi: artifact.abi,
   };
 
-  for (const file of DEPLOYMENT_FILES) {
+  const write = (file: string, data: object) => {
     fs.mkdirSync(path.dirname(file), { recursive: true });
-    fs.writeFileSync(file, JSON.stringify(out, null, 2) + "\n");
+    fs.writeFileSync(file, JSON.stringify(data, null, 2) + "\n");
     console.log(`  wrote ${path.relative(process.cwd(), file)}`);
-  }
+  };
+  write(FRONTEND_DEPLOYMENT_FILE, { address: out.address, chainId: out.chainId, abi: out.abi });
+  write(BACKEND_DEPLOYMENT_FILE, out);
   console.log(`RxChain deployed at ${address} (block ${out.deployBlock})`);
 }
 

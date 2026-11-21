@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-slate-50;
+  }
+}
+
+/* html5-qrcode injects its own chrome; keep the video full-bleed inside our frame. */
+#html5-qrcode-anchor-scan-type-change,
+[id$="__dashboard_section"] {
+  display: none !important;
+}

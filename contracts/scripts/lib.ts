@@ -6,15 +6,16 @@ import type { RxChain } from "../typechain-types";
 
 export const REPO_ROOT = path.resolve(__dirname, "..", "..");
 
-/** Every location the generated `{address, abi, chainId}` file is written to. */
-export const DEPLOYMENT_FILES = (
-  process.env.RXCHAIN_DEPLOYMENT_FILES
-    ? process.env.RXCHAIN_DEPLOYMENT_FILES.split(",")
-    : [
-        path.join(REPO_ROOT, "frontend", "src", "contracts", "RxChain.json"),
-        path.join(REPO_ROOT, "backend", "src", "contracts", "RxChain.json"),
-      ]
-).map((p) => path.resolve(p));
+/** Frontend copy: only {address, chainId, abi} so it is stable across redeploys (committed). */
+export const FRONTEND_DEPLOYMENT_FILE = path.resolve(
+  process.env.RXCHAIN_FRONTEND_FILE ??
+    path.join(REPO_ROOT, "frontend", "src", "contracts", "RxChain.json"),
+);
+/** Backend copy: adds deployBlock/deployedAt used by the event indexer (gitignored). */
+export const BACKEND_DEPLOYMENT_FILE = path.resolve(
+  process.env.RXCHAIN_BACKEND_FILE ??
+    path.join(REPO_ROOT, "backend", "src", "contracts", "RxChain.json"),
+);
 
 export const Role = {
   None: 0,
@@ -44,7 +45,7 @@ export interface DeploymentFile {
 
 /** Loads the deployment written by deploy.ts and checks it matches the connected chain. */
 export async function loadContract(): Promise<{ rx: RxChain; deployment: DeploymentFile }> {
-  const file = DEPLOYMENT_FILES[DEPLOYMENT_FILES.length - 1];
+  const file = BACKEND_DEPLOYMENT_FILE;
   if (!fs.existsSync(file)) {
     throw new Error(`Deployment file ${file} not found — run \`npm run deploy\` first.`);
   }

@@ -14,3 +14,4 @@ backend/data/*
 !backend/data/.gitkeep
 gas-report.txt
 .DS_Store
+backend/src/contracts/RxChain.json
