@@ -216,32 +216,27 @@ describe("RxChain", () => {
       const { rx, m1, mfg, exp } = await loadFixture(deployFixture);
       const now = await time.latest();
       const c = rx.connect(m1);
-      await expect(c.createBatch("D", "X1", exp, mfg, 1, ethers.ZeroHash)).to.be.revertedWithCustomError(
-        rx,
-        "InvalidDates",
-      );
-      await expect(c.createBatch("D", "X2", mfg, mfg, 1, ethers.ZeroHash)).to.be.revertedWithCustomError(
-        rx,
-        "InvalidDates",
-      );
+      await expect(
+        c.createBatch("D", "X1", exp, mfg, 1, ethers.ZeroHash),
+      ).to.be.revertedWithCustomError(rx, "InvalidDates");
+      await expect(
+        c.createBatch("D", "X2", mfg, mfg, 1, ethers.ZeroHash),
+      ).to.be.revertedWithCustomError(rx, "InvalidDates");
       await expect(
         c.createBatch("D", "X3", now - 10 * DAY, now - DAY, 1, ethers.ZeroHash),
       ).to.be.revertedWithCustomError(rx, "InvalidDates");
       await expect(
         c.createBatch("D", "X4", now + 10 * DAY, now + 400 * DAY, 1, ethers.ZeroHash),
       ).to.be.revertedWithCustomError(rx, "InvalidDates");
-      await expect(c.createBatch("D", "X5", mfg, exp, 0, ethers.ZeroHash)).to.be.revertedWithCustomError(
-        rx,
-        "InvalidQuantity",
-      );
-      await expect(c.createBatch("", "X6", mfg, exp, 1, ethers.ZeroHash)).to.be.revertedWithCustomError(
-        rx,
-        "EmptyField",
-      );
-      await expect(c.createBatch("D", "", mfg, exp, 1, ethers.ZeroHash)).to.be.revertedWithCustomError(
-        rx,
-        "EmptyField",
-      );
+      await expect(
+        c.createBatch("D", "X5", mfg, exp, 0, ethers.ZeroHash),
+      ).to.be.revertedWithCustomError(rx, "InvalidQuantity");
+      await expect(
+        c.createBatch("", "X6", mfg, exp, 1, ethers.ZeroHash),
+      ).to.be.revertedWithCustomError(rx, "EmptyField");
+      await expect(
+        c.createBatch("D", "", mfg, exp, 1, ethers.ZeroHash),
+      ).to.be.revertedWithCustomError(rx, "EmptyField");
     });
 
     it("is restricted to active manufacturers", async () => {
@@ -370,10 +365,9 @@ describe("RxChain", () => {
     it("blocks manufacturer -> manufacturer and -> regulator", async () => {
       const { rx, m1, m2, reg2, create } = await loadFixture(deployFixture);
       const id = await create();
-      await expect(rx.connect(m1).initiateTransfer(id, m2.address, "")).to.be.revertedWithCustomError(
-        rx,
-        "InvalidTransferRoute",
-      );
+      await expect(
+        rx.connect(m1).initiateTransfer(id, m2.address, ""),
+      ).to.be.revertedWithCustomError(rx, "InvalidTransferRoute");
       await expect(
         rx.connect(m1).initiateTransfer(id, reg2.address, ""),
       ).to.be.revertedWithCustomError(rx, "InvalidTransferRoute");
@@ -413,10 +407,9 @@ describe("RxChain", () => {
       await expect(
         rx.connect(m1).initiateTransfer(id, ethers.ZeroAddress, ""),
       ).to.be.revertedWithCustomError(rx, "ZeroAddress");
-      await expect(rx.connect(m1).initiateTransfer(id, m1.address, "")).to.be.revertedWithCustomError(
-        rx,
-        "SelfTransfer",
-      );
+      await expect(
+        rx.connect(m1).initiateTransfer(id, m1.address, ""),
+      ).to.be.revertedWithCustomError(rx, "SelfTransfer");
     });
 
     it("blocks transfer to a suspended participant", async () => {
@@ -699,10 +692,9 @@ describe("RxChain", () => {
           .to.be.revertedWithCustomError(rx, "NotBatchManufacturer")
           .withArgs(s.address);
       }
-      await expect(rx.connect(m1).attachDocument(id, ethers.ZeroHash)).to.be.revertedWithCustomError(
-        rx,
-        "InvalidDocHash",
-      );
+      await expect(
+        rx.connect(m1).attachDocument(id, ethers.ZeroHash),
+      ).to.be.revertedWithCustomError(rx, "InvalidDocHash");
       await rx.setParticipantActive(m1.address, false);
       await expect(rx.connect(m1).attachDocument(id, DOC_HASH)).to.be.revertedWithCustomError(
         rx,
@@ -793,7 +785,9 @@ describe("RxChain", () => {
       await rx.registerParticipant(d1.address, Role.Distributor, "D", "D1", "X");
       await rx.registerParticipant(p1.address, Role.Pharmacy, "P", "P1", "X");
       const now = await time.latest();
-      await rx.connect(m1).createBatch("Drug", "H-1", now - DAY, now + 100 * DAY, 10, ethers.ZeroHash);
+      await rx
+        .connect(m1)
+        .createBatch("Drug", "H-1", now - DAY, now + 100 * DAY, 10, ethers.ZeroHash);
       const id = await rx.computeBatchId(m1.address, "H-1");
       await rx.connect(m1).initiateTransfer(id, d1.address, "");
       await rx.connect(d1).confirmReceipt(id);
@@ -854,15 +848,17 @@ describe("RxChain", () => {
       await expect(
         rx.connect(m1).createBatch("D", "P-1", mfg, exp, 1, ethers.ZeroHash),
       ).to.be.revertedWithCustomError(rx, E);
-      await expect(rx.connect(m1).initiateTransfer(id, d1.address, "")).to.be.revertedWithCustomError(
-        rx,
-        E,
-      );
+      await expect(
+        rx.connect(m1).initiateTransfer(id, d1.address, ""),
+      ).to.be.revertedWithCustomError(rx, E);
       await expect(rx.connect(d1).confirmReceipt(id2)).to.be.revertedWithCustomError(rx, E);
       await expect(rx.connect(d1).rejectTransfer(id2, "x")).to.be.revertedWithCustomError(rx, E);
       await expect(rx.connect(m1).cancelTransfer(id2)).to.be.revertedWithCustomError(rx, E);
       await expect(rx.connect(m1).recallBatch(id, "x")).to.be.revertedWithCustomError(rx, E);
-      await expect(rx.connect(m1).attachDocument(id, DOC_HASH)).to.be.revertedWithCustomError(rx, E);
+      await expect(rx.connect(m1).attachDocument(id, DOC_HASH)).to.be.revertedWithCustomError(
+        rx,
+        E,
+      );
       // views still work
       expect(await verdictOf(rx, id)).to.equal(Verdict.InSupplyChain);
 

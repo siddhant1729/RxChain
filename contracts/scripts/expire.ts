@@ -13,7 +13,8 @@ async function main() {
   const batchNumber = process.env.BATCH_NUMBER ?? "IBU-24050";
   const id = await rx.computeBatchId(sun.address, batchNumber);
   const batch = await rx.getBatch(id);
-  if (!batch.exists) throw new Error(`Batch ${batchNumber} not found — run \`npm run seed\` first.`);
+  if (!batch.exists)
+    throw new Error(`Batch ${batchNumber} not found — run \`npm run seed\` first.`);
 
   const now = (await ethers.provider.getBlock("latest"))!.timestamp;
   const target = Number(batch.expiryDate) + 60;

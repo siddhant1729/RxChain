@@ -16,7 +16,13 @@ export const DEPLOYMENT_FILES = (
       ]
 ).map((p) => path.resolve(p));
 
-export const Role = { None: 0, Manufacturer: 1, Distributor: 2, Pharmacy: 3, Regulator: 4 } as const;
+export const Role = {
+  None: 0,
+  Manufacturer: 1,
+  Distributor: 2,
+  Pharmacy: 3,
+  Regulator: 4,
+} as const;
 export const ROLE_NAMES = ["None", "Manufacturer", "Distributor", "Pharmacy", "Regulator"];
 export const VERDICT_NAMES = [
   "Genuine",

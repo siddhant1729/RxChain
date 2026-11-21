@@ -19,7 +19,9 @@ function wallet(index: number) {
 
 async function apiVerdict(id: string): Promise<string | null> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/verify/${id}`, { signal: AbortSignal.timeout(3000) });
+    const res = await fetch(`${BACKEND_URL}/api/verify/${id}`, {
+      signal: AbortSignal.timeout(3000),
+    });
     if (!res.ok) return null;
     const body = (await res.json()) as { verdict: string };
     return body.verdict;
@@ -45,7 +47,15 @@ async function main() {
   const pharmacyAddr = await newPharmacy.getAddress();
   const existing = await rx.getParticipant(pharmacyAddr);
   if (Number(existing.role) === Role.None) {
-    await (await as(admin).registerParticipant(pharmacyAddr, Role.Pharmacy, "E2E Test Pharmacy", "RDL-E2E-0001", "Noida")).wait();
+    await (
+      await as(admin).registerParticipant(
+        pharmacyAddr,
+        Role.Pharmacy,
+        "E2E Test Pharmacy",
+        "RDL-E2E-0001",
+        "Noida",
+      )
+    ).wait();
   }
   assert.equal(Number((await rx.getParticipant(pharmacyAddr)).role), Role.Pharmacy);
   assert.equal(await rx.isActiveParticipant(pharmacyAddr), true);
@@ -56,7 +66,16 @@ async function main() {
   const now = (await ethers.provider.getBlock("latest"))!.timestamp;
   const batchNumber = `E2E-${Date.now()}`;
   const docHash = ethers.sha256(ethers.toUtf8Bytes(`CoA for ${batchNumber}`));
-  await (await as(sun).createBatch("Pantoprazole 40mg", batchNumber, now - 86400, now + 400 * 86400, 3000, docHash)).wait();
+  await (
+    await as(sun).createBatch(
+      "Pantoprazole 40mg",
+      batchNumber,
+      now - 86400,
+      now + 400 * 86400,
+      3000,
+      docHash,
+    )
+  ).wait();
   const id = await rx.computeBatchId(sunAddr, batchNumber);
   const created = await rx.getBatch(id);
   assert.equal(created.exists, true);
