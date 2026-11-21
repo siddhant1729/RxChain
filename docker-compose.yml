@@ -1,0 +1,79 @@
+# `docker compose up --build` → full demo:
+#   chain     Hardhat node            http://localhost:8545 (chainId 31337)
+#   deployer  one-shot deploy + seed  (writes the ABI/address into the shared volume)
+#   backend   Express API             http://localhost:4000
+#   frontend  React app               http://localhost:5173
+services:
+  chain:
+    build: .
+    image: rxchain:latest
+    command: ["npm", "run", "chain"]
+    ports: ["8545:8545"]
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8545',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'eth_chainId',params:[]})}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+
+  deployer:
+    image: rxchain:latest
+    depends_on:
+      chain:
+        condition: service_healthy
+    environment:
+      RPC_URL: http://chain:8545
+      PUBLIC_APP_URL: ${PUBLIC_APP_URL:-http://localhost:5173}
+      RXCHAIN_FRONTEND_FILE: /deployment/frontend.json
+      RXCHAIN_BACKEND_FILE: /deployment/RxChain.json
+    volumes:
+      - deployment:/deployment
+    command: ["sh", "-c", "npm run deploy && npm run seed"]
+    restart: "no"
+
+  backend:
+    image: rxchain:latest
+    depends_on:
+      deployer:
+        condition: service_completed_successfully
+    environment:
+      PORT: 4000
+      RPC_URL: http://chain:8545
+      PUBLIC_APP_URL: ${PUBLIC_APP_URL:-http://localhost:5173}
+      CONTRACT_FILE: /deployment/RxChain.json
+      DATABASE_FILE: /data/rxchain.db
+      UPLOADS_DIR: /data/uploads
+    volumes:
+      - deployment:/deployment:ro
+      - backend-data:/data
+    ports: ["4000:4000"]
+    command: ["npm", "run", "start", "-w", "backend"]
+
+  frontend:
+    image: rxchain:latest
+    depends_on:
+      deployer:
+        condition: service_completed_successfully
+    environment:
+      # Empty = derive from the browser's host (http://<host>:4000 and :8545)
+      VITE_API_URL: ${VITE_API_URL:-}
+      VITE_RPC_URL: ${VITE_RPC_URL:-}
+    volumes:
+      - deployment:/deployment:ro
+    ports: ["5173:5173"]
+    # Build against the freshly deployed contract, then serve the production bundle.
+    command:
+      [
+        "sh",
+        "-c",
+        "cp /deployment/frontend.json frontend/src/contracts/RxChain.json && npm run build -w frontend && npm run preview -w frontend",
+      ]
+
+volumes:
+  deployment:
+  backend-data:

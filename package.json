@@ -2,7 +2,7 @@
   "name": "rxchain",
   "version": "1.0.0",
   "private": true,
-  "description": "RxChain — blockchain drug supply-chain tracking and anti-counterfeiting",
+  "description": "RxChain \u2014 blockchain drug supply-chain tracking and anti-counterfeiting",
   "workspaces": [
     "contracts",
     "backend",
@@ -23,9 +23,11 @@
     "demo": "node scripts/demo.mjs",
     "test": "npm run test -w contracts && npm run test -w backend && npm run typecheck -w frontend && npm run build -w frontend",
     "coverage": "npm run coverage -w contracts",
-    "lint": "npm run lint -w backend && npm run lint -w frontend",
+    "lint": "npm run lint -w backend && npm run lint -w frontend && prettier --check .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "deploy:ganache": "npm run deploy:ganache -w contracts",
+    "seed:ganache": "npm run seed:ganache -w contracts"
   },
   "devDependencies": {
     "concurrently": "^9.1.0",

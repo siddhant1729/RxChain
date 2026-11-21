@@ -15,3 +15,4 @@ backend/data/*
 gas-report.txt
 .DS_Store
 backend/src/contracts/RxChain.json
+.demo/
