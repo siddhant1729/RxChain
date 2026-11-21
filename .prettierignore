@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+coverage.json
+contracts/artifacts
+contracts/cache
+contracts/typechain-types
+**/src/contracts/RxChain.json
+backend/uploads
+backend/data
+package-lock.json

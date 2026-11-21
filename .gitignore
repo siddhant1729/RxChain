@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+coverage/
+coverage.json
+.env
+*.log
+contracts/artifacts/
+contracts/cache/
+contracts/typechain-types/
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/data/*
+!backend/data/.gitkeep
+gas-report.txt
+.DS_Store

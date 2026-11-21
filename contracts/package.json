@@ -1,0 +1,25 @@
+{
+  "name": "@rxchain/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "chain": "hardhat node --hostname 0.0.0.0",
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.ts --network localhost",
+    "seed": "hardhat run scripts/seed.ts --network localhost",
+    "expire": "hardhat run scripts/expire.ts --network localhost",
+    "e2e": "hardhat run scripts/e2e.ts --network localhost",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "typecheck": "hardhat compile && tsc --noEmit"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "5.1.0",
+    "@types/node": "^20.16.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
