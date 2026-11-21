@@ -27,7 +27,6 @@ const config: HardhatUserConfig = {
     currency: "USD",
     outputFile: process.env.GAS_REPORT_FILE,
     noColors: Boolean(process.env.GAS_REPORT_FILE),
-    reportPureAndViewMethods: false,
   },
   mocha: {
     timeout: 120000,

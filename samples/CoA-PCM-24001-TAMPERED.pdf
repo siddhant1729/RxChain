@@ -1,0 +1,81 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1234 >>
+stream
+BT
+/F1 16 Tf
+1 0 0 1 60 780 Tm
+(CERTIFICATE OF ANALYSIS) Tj
+/F1 11 Tf
+1 0 0 1 60 750 Tm
+(Product: Paracetamol Tablets IP 500mg) Tj
+/F1 11 Tf
+1 0 0 1 60 732 Tm
+(Manufacturer: Sun Pharma Ltd \(demo data\)) Tj
+/F1 11 Tf
+1 0 0 1 60 714 Tm
+(Batch No: PCM-24001) Tj
+/F1 11 Tf
+1 0 0 1 60 696 Tm
+(Mfg. Date / Exp. Date: see on-chain record) Tj
+/F1 11 Tf
+1 0 0 1 60 678 Tm
+() Tj
+/F1 11 Tf
+1 0 0 1 60 660 Tm
+(Test                     Specification            Result) Tj
+/F1 11 Tf
+1 0 0 1 60 642 Tm
+(Description              White, round tablets     Complies) Tj
+/F1 11 Tf
+1 0 0 1 60 624 Tm
+(Identification \(IR\)      Matches reference        Complies) Tj
+/F1 11 Tf
+1 0 0 1 60 606 Tm
+(Assay \(Paracetamol\)      95.0% - 105.0%           109.8%) Tj
+/F1 11 Tf
+1 0 0 1 60 588 Tm
+(Dissolution \(30 min\)     NLT 80%                  92.4%) Tj
+/F1 11 Tf
+1 0 0 1 60 570 Tm
+(Related substances       NMT 0.5%                 0.12%) Tj
+/F1 11 Tf
+1 0 0 1 60 552 Tm
+(Microbial limits         Complies with IP         Complies) Tj
+/F1 11 Tf
+1 0 0 1 60 534 Tm
+() Tj
+/F1 11 Tf
+1 0 0 1 60 516 Tm
+(Conclusion: The batch complies with IP specifications.) Tj
+/F1 11 Tf
+1 0 0 1 60 498 Tm
+(Approved by: Head of Quality Control \(demo document for RxChain\)) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001527 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1597
+%%EOF
