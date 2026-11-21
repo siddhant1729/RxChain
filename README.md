@@ -222,7 +222,7 @@ The seeded batch IDs are deterministic (`keccak256(manufacturer, batchNumber)`),
 
 ## Screenshots
 
-> Add images to `docs/screenshots/` and they will render here.
+> Captured from the seeded demo (`npm run demo`). Replace the files in `docs/screenshots/` to update them.
 
 |                          |                                                                |
 | ------------------------ | -------------------------------------------------------------- |
